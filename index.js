@@ -75,8 +75,8 @@ io.on('connection', function (socket) {
 function tick()
 {
     return {
-      time : new Date().getSeconds
-    };
+      time : new Date().getSeconds()
+    }; 
 }
 
 server.listen(process.env.PORT || 8081, function () {
