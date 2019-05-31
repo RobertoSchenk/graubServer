@@ -38,6 +38,7 @@ io.on('connection', function (socket) {
     team: (Math.floor(Math.random() * 2) == 0) ? 'red' : 'blue'
   };
   // send the players object to the new player
+  socket.broadcast.emit('currentPlayers', { hello: 'world' });
   socket.emit('currentPlayers', players);
   // send the star object to the new player
   socket.emit('starLocation', star);
