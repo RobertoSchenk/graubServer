@@ -24,6 +24,8 @@ io.on('connection', function (socket) {
     playerId: socket.id,
     team: (Math.floor(Math.random() * 2) == 0) ? 'red' : 'blue'
   };
+
+  socket.emit('registeredId', socket.id);
   
   socket.emit('currentPlayers', players);
 
