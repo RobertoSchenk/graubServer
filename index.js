@@ -31,7 +31,7 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 
-
+io.origins('*:*');
 io.on('connection', function (socket) {
   console.log('a user connected: ', socket.id);
   // create a new player and add it to our players object
@@ -81,6 +81,6 @@ io.on('connection', function (socket) {
   });
 });
 
-server.listen(8081, function () {
+server.listen(process.env.PORT || 8081, function () {
   console.log(`Listening on ${server.address().port}`);
 });
