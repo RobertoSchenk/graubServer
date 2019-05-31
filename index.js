@@ -16,11 +16,6 @@ var scores = {
   red: 0
 };
 
-
-
-app.use(express.static(__dirname + '/public'));
-
-io.origins('*:*');
 io.on('connection', function (socket) {
   console.log('a user connected: ', socket.id);
   // create a new player and add it to our players object
