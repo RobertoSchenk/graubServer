@@ -1,8 +1,6 @@
 'use strict';
 var express = require('express');
 var app = express();
-
-
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
 
@@ -27,8 +25,6 @@ io.on('connection', function (socket) {
     team: (Math.floor(Math.random() * 2) == 0) ? 'red' : 'blue'
   };
   
-  
-  socket.broadcast.emit('currentPlayers', { hello: 'world' });
   socket.emit('currentPlayers', players);
 
   
