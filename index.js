@@ -26,8 +26,8 @@ io.on('connection', function (socket) {
     playerId: socket.id,
     team: (Math.floor(Math.random() * 2) == 0) ? 'red' : 'blue'
   };
+
   // send the players object to the new player
-  socket.broadcast.emit('currentPlayers', { hello: 'world' });
   socket.emit('currentPlayers', players);
   // send the star object to the new player
   socket.emit('starLocation', star);
@@ -49,8 +49,6 @@ io.on('connection', function (socket) {
     players[socket.id].x = movementData.x;
     players[socket.id].y = movementData.y;
     players[socket.id].rotation = movementData.rotation;
-    // emit a message to all players about the player that moved
-    socket.broadcast.emit('playerMoved', players[socket.id]);
   });
 
   socket.on('starCollected', function () {
@@ -69,5 +67,5 @@ io.on('connection', function (socket) {
 server.listen(process.env.PORT || 8081, function () {
   console.log(`Listening on ${server.address().port}`);
 
-  setInterval(() => io.emit('currentPlayers', new Date().toTimeString()), 1000);
+  setInterval(() => io.emit('tick', players), 1000);
 });
