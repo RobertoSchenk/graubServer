@@ -35,7 +35,7 @@ io.on('connection', function (socket) {
   socket.emit('scoreUpdate', scores);
   // update all other players of the new player
   socket.broadcast.emit('newPlayer', players[socket.id]);
-  
+
   socket.emit('registeredId', socket.id);
   // when a player disconnects, remove them from our players object
   socket.on('disconnect', function () {
@@ -68,5 +68,5 @@ io.on('connection', function (socket) {
 server.listen(process.env.PORT || 8081, function () {
   console.log(`Listening on ${server.address().port}`);
 
-  setInterval(() => io.emit('tick', players), 1000);
+  setInterval(() => io.emit('tick', players), 41);
 });
