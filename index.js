@@ -16,6 +16,20 @@ var scores = {
   red: 0
 };
 
+function SendTick() {
+  let obj = CreateTickObj();
+  io.emit('tick', obj);
+}
+
+function CreateTickObj()
+{
+  let obj = {
+    'players': players,
+    'starLocation': star
+  };
+  return obj;
+}
+
 io.on('connection', function (socket) {
   console.log('a user connected: ', socket.id);
   // create a new player and add it to our players object
@@ -29,14 +43,14 @@ io.on('connection', function (socket) {
 
   // send the players object to the new player
   socket.emit('currentPlayers', players);
-  // send the star object to the new player
-  socket.emit('starLocation', star);
-  // send the current scores
-  socket.emit('scoreUpdate', scores);
+
   // update all other players of the new player
   socket.broadcast.emit('newPlayer', players[socket.id]);
 
   socket.emit('registeredId', socket.id);
+
+  socket.emit('tick', CreateTickObj());
+
   // when a player disconnects, remove them from our players object
   socket.on('disconnect', function () {
     console.log('user disconnected: ', socket.id);
@@ -68,5 +82,5 @@ io.on('connection', function (socket) {
 server.listen(process.env.PORT || 8081, function () {
   console.log(`Listening on ${server.address().port}`);
 
-  setInterval(() => io.emit('tick', players), 41);
+  setInterval(() => SendTick(), 41);
 });
