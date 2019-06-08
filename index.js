@@ -22,8 +22,7 @@ function SendTick() {
 function CreateTickObj()
 {
   let obj = {
-    'players': players,
-    'starLocation': star
+    'players': players
   };
   return obj;
 }
@@ -48,6 +47,8 @@ io.on('connection', function (socket) {
   socket.emit('registeredId', socket.id);
 
   socket.emit('tick', CreateTickObj());
+
+  socket.emit('starlocation', star);
 
   // when a player disconnects, remove them from our players object
   socket.on('disconnect', function () {
