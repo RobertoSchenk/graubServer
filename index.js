@@ -66,8 +66,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('starCollected', function () {
-    if(Math.abs(players[socket.id].x - star.x) <= 80 && Math.abs(players[socket.id].y - star.y) <=80)
+    if(Math.abs(players[socket.id].x - star.x) > 64 || Math.abs(players[socket.id].y - star.y) >64)
     {
+      io.emit('debugSend', {log: (Math.abs(players[socket.id].x - star.x) > 64).toString() + ( Math.abs(players[socket.id].y - star.y))});
       return;
     }
 
@@ -77,8 +78,8 @@ io.on('connection', function (socket) {
       scores.blue += 10;
     }
 
-    star.x = Math.floor(Math.random() * 700) + 80;
-    star.y = Math.floor(Math.random() * 500) + 80;
+    star.x = Math.floor(Math.random() * 700) + 70;
+    star.y = Math.floor(Math.random() * 500) + 70;
 
     io.emit('starLocation', star);
     io.emit('scoreUpdate', scores);
