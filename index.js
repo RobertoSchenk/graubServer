@@ -48,7 +48,7 @@ io.on('connection', function (socket) {
 
   socket.emit('tick', CreateTickObj());
 
-  socket.emit('starlocation', star);
+  socket.emit('starLocation', star);
 
   // when a player disconnects, remove them from our players object
   socket.on('disconnect', function () {
