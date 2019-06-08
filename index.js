@@ -66,6 +66,11 @@ io.on('connection', function (socket) {
   });
 
   socket.on('starCollected', function () {
+    if(Math.abs(players[socket.id].x - star.x) <= 32 && Math.abs(players[socket.id].y - star.y) <= 32)
+    {
+      return;
+    }
+
     if (players[socket.id].team === 'red') {
       scores.red += 10;
     } else {
