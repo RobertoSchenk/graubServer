@@ -16,12 +16,17 @@ var scores = {
   red: 0
 };
 
-function ResetGame()
-{
+function ResetGame() {
   alternate = false;
   players = {};
-  star = {};
-  scores = {};
+  star = {
+    x: Math.floor(Math.random() * 700) + 50,
+    y: Math.floor(Math.random() * 500) + 50
+  };
+  scores = {
+    blue: 0,
+    red: 0
+  };
 }
 
 function SendTick() {
@@ -29,8 +34,7 @@ function SendTick() {
   io.emit('tick', obj);
 }
 
-function CreateTickObj()
-{
+function CreateTickObj() {
   let obj = {
     'players': players
   };
@@ -45,7 +49,7 @@ io.on('connection', function (socket) {
     x: Math.floor(Math.random() * 700) + 50,
     y: Math.floor(Math.random() * 500) + 50,
     playerId: socket.id,
-    team: alternate ?  'red' : 'blue'
+    team: alternate ? 'red' : 'blue'
   };
 
 
@@ -70,8 +74,7 @@ io.on('connection', function (socket) {
     console.log('user disconnected: ', socket.id);
     delete players[socket.id];
 
-    if(Object.keys(players).length == 0)
-    {
+    if (Object.keys(players).length == 0) {
       ResetGame();
     }
 
@@ -86,9 +89,8 @@ io.on('connection', function (socket) {
   });
 
   socket.on('starCollected', function () {
-    if(Math.abs(players[socket.id].x - star.x) > 64 || Math.abs(players[socket.id].y - star.y) >64)
-    {
-      io.emit('debugSend', {log: (Math.abs(players[socket.id].x - star.x) > 64).toString() + ( Math.abs(players[socket.id].y - star.y))});
+    if (Math.abs(players[socket.id].x - star.x) > 64 || Math.abs(players[socket.id].y - star.y) > 64) {
+      io.emit('debugSend', { log: (Math.abs(players[socket.id].x - star.x) > 64).toString() + (Math.abs(players[socket.id].y - star.y)) });
       return;
     }
 
