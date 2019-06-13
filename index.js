@@ -1,8 +1,6 @@
 'use strict';
 var express = require('express');
 var app = express();
-
-
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
 
@@ -26,8 +24,7 @@ function SendTick() {
 function CreateTickObj()
 {
   let obj = {
-    'players': players,
-    'starLocation': star
+    'players': players
   };
   return obj;
 }
@@ -56,12 +53,13 @@ io.on('connection', function (socket) {
 
   alternate = !alternate;
 
+  socket.emit('starLocation', star);
 
   // when a player disconnects, remove them from our players object
   socket.on('disconnect', function () {
     console.log('user disconnected: ', socket.id);
     delete players[socket.id];
-    // emit a message to all players to remove this player
+
     io.emit('disconnect', socket.id);
 
 
@@ -75,13 +73,21 @@ io.on('connection', function (socket) {
   });
 
   socket.on('starCollected', function () {
+    if(Math.abs(players[socket.id].x - star.x) > 64 || Math.abs(players[socket.id].y - star.y) >64)
+    {
+      io.emit('debugSend', {log: (Math.abs(players[socket.id].x - star.x) > 64).toString() + ( Math.abs(players[socket.id].y - star.y))});
+      return;
+    }
+
     if (players[socket.id].team === 'red') {
       scores.red += 10;
     } else {
       scores.blue += 10;
     }
-    star.x = Math.floor(Math.random() * 700) + 50;
-    star.y = Math.floor(Math.random() * 500) + 50;
+
+    star.x = Math.floor(Math.random() * 700) + 70;
+    star.y = Math.floor(Math.random() * 500) + 70;
+
     io.emit('starLocation', star);
     io.emit('scoreUpdate', scores);
   });
