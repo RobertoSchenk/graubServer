@@ -16,6 +16,14 @@ var scores = {
   red: 0
 };
 
+function ResetGame()
+{
+  alternate = false;
+  players = {};
+  star = {};
+  scores = {};
+}
+
 function SendTick() {
   let obj = CreateTickObj();
   io.emit('tick', obj);
@@ -55,14 +63,19 @@ io.on('connection', function (socket) {
 
   socket.emit('starLocation', star);
 
+  socket.emit('scoreUpdate', scores);
+
   // when a player disconnects, remove them from our players object
   socket.on('disconnect', function () {
     console.log('user disconnected: ', socket.id);
     delete players[socket.id];
 
+    if(Object.keys(players).length == 0)
+    {
+      ResetGame();
+    }
+
     io.emit('disconnect', socket.id);
-
-
   });
 
   // when a player moves, update the player data
