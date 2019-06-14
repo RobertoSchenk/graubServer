@@ -16,9 +16,23 @@ var scores = {
   red: 0
 };
 
+var maxStars = 30;
+
 function ResetGame() {
   alternate = false;
   players = {};
+  star = {
+    x: Math.floor(Math.random() * 700) + 50,
+    y: Math.floor(Math.random() * 500) + 50
+  };
+  scores = {
+    blue: 0,
+    red: 0
+  };
+}
+
+function ResetMatch()
+{
   star = {
     x: Math.floor(Math.random() * 700) + 50,
     y: Math.floor(Math.random() * 500) + 50
@@ -98,6 +112,12 @@ io.on('connection', function (socket) {
       scores.red += 10;
     } else {
       scores.blue += 10;
+    }
+
+    if(scores.red >= maxStars || scores.blue >= maxStars )
+    {
+      io.emit('gameOver', scores.red > scores.blue ? "red" : "blue" );
+      setTimeout(function(){ResetMatch();}, '3000');
     }
 
     star.x = Math.floor(Math.random() * 700) + 70;
