@@ -31,8 +31,7 @@ function ResetGame() {
   };
 }
 
-function ResetMatch()
-{
+function ResetMatch() {
   star = {
     x: Math.floor(Math.random() * 700) + 50,
     y: Math.floor(Math.random() * 500) + 50
@@ -114,10 +113,15 @@ io.on('connection', function (socket) {
       scores.blue += 10;
     }
 
-    if(scores.red >= maxStars || scores.blue >= maxStars )
-    {
-      io.emit('gameOver', scores.red > scores.blue ? "red" : "blue" );
-      setTimeout(function(){ResetMatch();}, '3000');
+    if (scores.red >= maxStars || scores.blue >= maxStars) {
+      io.emit('gameOver', scores.red > scores.blue ? "red" : "blue");
+      setTimeout(function () { ResetMatch(); }, '3000');
+      star.x = -300;
+      star.y = -300;
+
+      io.emit('starLocation', star);
+      io.emit('scoreUpdate', scores);
+      return;
     }
 
     star.x = Math.floor(Math.random() * 700) + 70;
