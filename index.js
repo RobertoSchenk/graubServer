@@ -30,9 +30,7 @@ function ResetGame() {
     red: 0
   };
 
-  socket.emit('starLocation', star);
 
-  socket.emit('scoreUpdate', scores);
 }
 
 function ResetMatch() {
@@ -44,6 +42,11 @@ function ResetMatch() {
     blue: 0,
     red: 0
   };
+  
+  socket.emit('starLocation', star);
+
+  socket.emit('scoreUpdate', scores);
+  
 }
 
 function SendTick() {
