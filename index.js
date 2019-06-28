@@ -43,9 +43,9 @@ function ResetMatch() {
     red: 0
   };
   
-  socket.emit('starLocation', star);
+  io.emit('starLocation', star);
 
-  socket.emit('scoreUpdate', scores);
+  io.emit('scoreUpdate', scores);
   
 }
 
