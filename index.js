@@ -6,7 +6,7 @@ var io = require('socket.io').listen(server);
 io.origins('*:*');
 var alternate = false;
 
-var players = {};
+var players = {}; 
 var star = {
   x: Math.floor(Math.random() * 700) + 50,
   y: Math.floor(Math.random() * 500) + 50
@@ -16,7 +16,7 @@ var scores = {
   red: 0
 };
 
-var maxStars = 30;
+var maxStars = 100;
 
 function ResetGame() {
   alternate = false;
