@@ -47,6 +47,8 @@ function ResetMatch() {
 
   io.emit('scoreUpdate', scores);
   
+  io.emit('newMatch',null);
+  
 }
 
 function SendTick() {
@@ -121,7 +123,7 @@ io.on('connection', function (socket) {
     }
 
     if (scores.red >= maxStars || scores.blue >= maxStars) {
-      io.emit('gameOver', scores.red > scores.blue ? "red" : "blue");
+      io.emit('gameOver', scores.red > scores.blue ? "RED" : "BLUE");
       setTimeout(function () { ResetMatch(); }, '3000');
       star.x = -300;
       star.y = -300;
